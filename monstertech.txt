@@ -1,0 +1,28 @@
+"Gamemode"
+{
+	"title"			"Monster Tech"
+	"base"			"base"
+	"maps"			"^mt_"
+	"menusystem" 	"1"
+
+	"settings"
+	{
+		1
+		{
+			"name"		"mt_monsterspeed"
+			"text"		"Monster Speed"
+			"help"		"The speed monsters travel at."
+			"type"		"Numeric"
+			"default"	"0.5"
+		}
+
+		2
+		{
+			"name"		"mt_humanspeed"
+			"text"		"Human Speed"
+			"help"		"The speed humans travel at."
+			"type"		"Numeric"
+			"default"	"1"
+		}
+	}
+}

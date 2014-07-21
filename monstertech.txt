@@ -9,18 +9,153 @@
 	{
 		1
 		{
+			"name"		"mt_roundtime"
+			"text"		"Round Time"
+			"help"		"Round time in seconds."
+			"type"		"Numeric"
+			"default"	"180"
+		}
+		2
+		{
+			"name"		"mt_roundamount"
+			"text"		"Round Amount"
+			"help"		"Amount of rounds."
+			"type"		"Numeric"
+			"default"	"10"
+		}
+		3
+		{
 			"name"		"mt_monsterspeed"
 			"text"		"Monster Speed"
 			"help"		"Monster speed multiplier."
 			"type"		"Numeric"
-			"default"	"0.5"
+			"default"	"1"
 		}
-
-		2
+		4
 		{
 			"name"		"mt_humanspeed"
 			"text"		"Human Speed"
 			"help"		"Human speed multiplier."
+			"type"		"Numeric"
+			"default"	"1"
+		}
+		5
+		{
+			"name"		"mt_monsterjumpheight"
+			"text"		"Monster Jump Height"
+			"help"		"Monster jump height multiplier."
+			"type"		"Numeric"
+			"default"	"4"
+		}
+		6
+		{
+			"name"		"mt_humanjumpheight"
+			"text"		"Human Jump Height"
+			"help"		"Human jump height multiplier."
+			"type"		"Numeric"
+			"default"	"1"
+		}
+		7
+		{
+			"name"		"mt_monsternightvision"
+			"text"		"Monster Night vision"
+			"help"		"Do monsters have night vision."
+			"type"		"CheckBox"
+			"default"	"1"
+		}
+		8
+		{
+			"name"		"mt_humanflashlight"
+			"text"		"Flashlights"
+			"help"		"Do humans have night vision."
+			"type"		"CheckBox"
+			"default"	"1"
+		}
+		9
+		{
+			"name"		"mt_monstertaunts"
+			"text"		"Monster Taunts"
+			"help"		"Can monsters taunt (make scary noises)."
+			"type"		"CheckBox"
+			"default"	"1"
+		}
+		10
+		{
+			"name"		"mt_humandistractions"
+			"text"		"Human Distractions"
+			"help"		"Can humans distract (whistle and knock)."
+			"type"		"CheckBox"
+			"default"	"1"
+		}
+		11
+		{
+			"name"		"mt_monstersdestroysbreakables"
+			"text"		"Monsters Destroy Breakables"
+			"help"		"Can monsters destroy breakables by standing on them."
+			"type"		"CheckBox"
+			"default"	"1"
+		}
+		12
+		{
+			"name"		"mt_monstersdestroysdoors"
+			"text"		"Monsters Destroy Doors"
+			"help"		"Can monsters destroy doors."
+			"type"		"CheckBox"
+			"default"	"1"
+		}
+		13
+		{
+			"name"		"mt_monsterscrushplayers"
+			"text"		"Monsters Crush Players"
+			"help"		"Can monsters crush players."
+			"type"		"CheckBox"
+			"default"	"1"
+		}
+		14
+		{
+			"name"		"mt_monstersilenttime"
+			"text"		"Silent Walking Time"
+			"help"		"Silent walking time multiplier."
+			"type"		"Numeric"
+			"default"	"1"
+		}
+		15
+		{
+			"name"		"mt_monstersilentrecharge"
+			"text"		"Silent Walking Recharge"
+			"help"		"Silent walking recharge rate multiplier."
+			"type"		"Numeric"
+			"default"	"1"
+		}
+		16
+		{
+			"name"		"mt_humansprinttime"
+			"text"		"Human Sprint Time"
+			"help"		"Human sprint time multiplier."
+			"type"		"Numeric"
+			"default"	"1"
+		}
+		17
+		{
+			"name"		"mt_humansprintrecharge"
+			"text"		"Human Sprint Recharge"
+			"help"		"Human sprint recharge rate multiplier."
+			"type"		"Numeric"
+			"default"	"1"
+		}
+		18
+		{
+			"name"		"mt_monstersprinttime"
+			"text"		"Monster Sprint Time"
+			"help"		"Monster sprint time multiplier."
+			"type"		"Numeric"
+			"default"	"1"
+		}
+		19
+		{
+			"name"		"mt_monstersprintrecharge"
+			"text"		"Monster Sprint Recharge"
+			"help"		"Monster sprint recharge rate multiplier."
 			"type"		"Numeric"
 			"default"	"1"
 		}

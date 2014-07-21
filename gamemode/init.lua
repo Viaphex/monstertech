@@ -25,6 +25,12 @@ function GM:PlayerSpawn( ply )
 
 end
 
+function GM:CanPlayerSuicide()
+
+	return;
+
+end
+
 function forceMonster( ply )
 
 	if ply == NULL or ply:IsAdmin() then

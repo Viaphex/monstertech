@@ -70,7 +70,7 @@ function GM:PlayerFootstep( ply, pos )
 	
 	if ply == playerMonster then
 		
-		entityPlaySound( ply, "mt/monsterStep.wav", 75, math.random( 90,100 ) );
+		entityPlaySound( ply, "mt/monsterstep.wav", 75, math.random( 90,100 ) );
 		shakeScreen( pos, 10, 1, 0.25, 5 );
 	
 	else
@@ -89,8 +89,8 @@ function GM:GetFallDamage( ply, speed )
 	
 	else
 	
-		entityPlaySound( ply, "mt/monsterServo.wav", 90, math.random( 90,100 ) );
-		entityPlaySound( ply, "mt/monsterStep.wav", 90, math.random( 90,100 ) );
+		entityPlaySound( ply, "mt/monsterservo.wav", 90, math.random( 90,100 ) );
+		entityPlaySound( ply, "mt/monsterstep.wav", 90, math.random( 90,100 ) );
 		shakeScreen( ply:GetPos(), 10, 1, 1, 50 );
 		
 		return;

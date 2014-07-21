@@ -1,6 +1,3 @@
-util.PrecacheSound( "mt/monsterServo.wav" );
-util.PrecacheSound( "mt/monsterStep.wav" );
-
 /*function monsterManager()
 	
 	received = net.ReadEntity();

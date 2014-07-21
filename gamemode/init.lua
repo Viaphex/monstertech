@@ -8,8 +8,8 @@ include( "player.lua" );
 util.AddNetworkString( "entityPlaySound" );
 util.AddNetworkString( "shakeScreen" );
 
-resource.AddFile( "sound/mt/monsterServo.wav" );
-resource.AddFile( "sound/mt/monsterStep.wav" );
+resource.AddFile( "sound/mt/monsterservo.wav" );
+resource.AddFile( "sound/mt/monsterstep.wav" );
 
 function GM:Initialize()
 

@@ -11,7 +11,7 @@
 		{
 			"name"		"mt_monsterspeed"
 			"text"		"Monster Speed"
-			"help"		"The speed monsters travel at."
+			"help"		"Monster speed multiplier."
 			"type"		"Numeric"
 			"default"	"0.5"
 		}
@@ -20,7 +20,7 @@
 		{
 			"name"		"mt_humanspeed"
 			"text"		"Human Speed"
-			"help"		"The speed humans travel at."
+			"help"		"Human speed multiplier."
 			"type"		"Numeric"
 			"default"	"1"
 		}

@@ -1,71 +1,66 @@
-if SERVER then resource.AddFile( "sound/mt/monsterStep.wav" ) end;
+function monsterManager( ply )
 
-if CLIENT then util.PrecacheSound( "mt/monsterStep.wav" ) end;
-
-if SERVER then util.AddNetworkString( "makeMonsterCl" ) end;
-
-function MakeMonster( ply )
-
-	if SERVER then
-
-		if IsEntity( ply ) and ply:IsPlayer() and ply != playerMonster then
+	if IsEntity( ply ) and ply:IsPlayer() and ply != playerMonster then
 		
-			net.Start( "makeMonsterCl" );
-			net.WriteEntity( ply );
-			net.Broadcast();
+		//net.Start( "monsterManagerCl" );
+		//net.WriteEntity( ply );
+		//net.Broadcast();
 		
-			unSetupMonster();
+		setupPlayer( playerMonster );
 			
-			playerMonster = ply;
+		playerMonster = ply;
 			
-			setupMonster();
+		setupPlayer( ply, true );
 		
-			print( ply, " is turning into a monster." );
+		PrintMessage( 4, string.Implode( " ", { ply:Nick(), " is the monster!" } ) );
 		
-		elseif !IsEntity( ply ) then
+	elseif !IsEntity( ply ) then
 	
-			error( "Non-entity passed to MakeMonster. Server is empty?" );
-			return true;
+		error( "Non-entity passed to monsterManager. Server is empty?" );
+		return true;
 		
-		elseif !ply:IsPlayer() then
+	elseif !ply:IsPlayer() then
 	
-			error( "Non-player passed to MakeMonster." );
-			return true;
+		error( "Non-player passed to monsterManager." );
+		return true;
 		
-		elseif ply == playerMonster then
+	elseif ply == playerMonster then
 		
-			print( "Player passed to MakeMonster is already the monster." );
-			return true;
-		
-		end
+		print( "Player passed to monsterManager is already the monster." );
+		return true;
 		
 	end
-	
-	if CLIENT then
-	
-		playerMonsterCl = net.ReadEntity();
-	
-	end
-
+		
 end
 
-if CLIENT then net.Receive( "makeMonsterCl", MakeMonster ); end
+function setupPlayer( ply, turnMonster )
 
-function unSetupMonster()
-
-	if SERVER and IsEntity( playerMonster ) and playerMonster:IsPlayer() then
+	if !IsEntity( ply ) or !ply:IsPlayer() then return true end;
 	
-		playerMonster:SetWalkSpeed( 500 );
+	print( "Testing if ply is NULL" );
+	if !ply:IsValid() then print( "Player is NULL, this needs fixing." ) return true end; //Fix this, it's not good
 	
-	end
+	if turnMonster then
 
-end
-
-function setupMonster()
-
-	if SERVER and IsEntity( playerMonster ) and playerMonster:IsPlayer() then
+		print( "Making monster" );
+		ply:Give( "weapon_smg1" );
+		ply:Give( "weapon_frag" );
+		ply:GiveAmmo( 256, "SMG1" );
+		ply:GiveAmmo( 256, "grenade" );
+		ply:SetWalkSpeed( 200 * cvars.Number( "mt_monsterspeed" ) );
+		ply:SetRunSpeed( 400 * cvars.Number( "mt_monsterspeed" ) );
+		ply:SetJumpPower( 800 );
+		ply:SetModel( "models/player/gman_high.mdl" )
 	
-		playerMonster:SetWalkSpeed( 50 );
+	else
+	
+		print( "Making human" );
+		ply:StripWeapons();
+		ply:StripAmmo();
+		ply:SetWalkSpeed( 200 * cvars.Number( "mt_humanspeed" ) );
+		ply:SetRunSpeed( 400 * cvars.Number( "mt_humanspeed" ) );
+		ply:SetJumpPower( 200 );
+		ply:SetModel( "models/player/kleiner.mdl" );
 	
 	end
 
@@ -73,15 +68,31 @@ end
 
 function GM:PlayerFootstep( ply, pos )
 	
-	if CLIENT and ply == playerMonsterCl then
-	
-		ply:EmitSound("mt/monsterStep.wav");
-		util.ScreenShake( pos, 5, 5, 1, 500 );
+	if ply == playerMonster then
 		
-		return true;
+		entityPlaySound( ply, "mt/monsterStep.wav", 75, math.random( 90,100 ) );
+		shakeScreen( pos, 10, 1, 0.25, 5 );
 	
 	else
 	
+		return;
+		
+	end
+
+end
+
+function GM:GetFallDamage( ply, speed )
+
+	if ply != playerMonster then
+		
+		return ( speed / 20 );
+	
+	else
+	
+		entityPlaySound( ply, "mt/monsterServo.wav", 90, math.random( 90,100 ) );
+		entityPlaySound( ply, "mt/monsterStep.wav", 90, math.random( 90,100 ) );
+		shakeScreen( ply:GetPos(), 10, 1, 1, 50 );
+		
 		return;
 		
 	end

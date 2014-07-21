@@ -1,6 +1,9 @@
 include( "shared.lua" );
 include( "cl_player.lua" );
 
+util.PrecacheSound( "mt/monsterservo.wav" );
+util.PrecacheSound( "mt/monsterstep.wav" );
+
 /*function GM:Think()
 	
 	if LocalPlayer():IsOnGround() and LocalPlayer():WaterLevel() < 2 then

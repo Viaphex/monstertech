@@ -7,4 +7,4 @@ include( "playerclasses/spectator.lua" );
 
 util.PrecacheSound( "mt/monsterservo.wav" );
 util.PrecacheSound( "mt/monsterstep.wav" );
-util.PrecacheSound( "mt/goSound.wav" );
+util.PrecacheSound( "mt/gosound.wav" );

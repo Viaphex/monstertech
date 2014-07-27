@@ -10,7 +10,7 @@ include( "rounds.lua" );
 
 resource.AddFile( "sound/mt/monsterservo.wav" );
 resource.AddFile( "sound/mt/monsterstep.wav" );
-resource.AddFile( "sound/mt/goSound.wav" );
+resource.AddFile( "sound/mt/gosound.wav" );
 
 function GM:Initialize()
 

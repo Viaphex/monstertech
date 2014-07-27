@@ -5,7 +5,7 @@ round.monsterIteration = 0;
 
 function round.Start()
 	
-	player.GetAll()[ 1 ]:EmitSound( "mt/goSound.wav", 511, 100 ); -- THIS IS STUPID
+	player.GetAll()[ 1 ]:EmitSound( "mt/gosound.wav", 511, 100 ); -- THIS IS STUPID
 
 	PrintMessage( 4, "Go!" )
 

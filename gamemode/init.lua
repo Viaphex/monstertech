@@ -1,15 +1,16 @@
 AddCSLuaFile( "cl_init.lua" );
 AddCSLuaFile( "shared.lua" );
-AddCSLuaFile( "cl_player.lua" );
+AddCSLuaFile( "playerclasses/human.lua" );
+AddCSLuaFile( "playerclasses/monster.lua" );
+AddCSLuaFile( "playerclasses/spectator.lua" );
 
 include( "shared.lua" );
-include( "player.lua" );
-
-util.AddNetworkString( "entityPlaySound" );
-util.AddNetworkString( "shakeScreen" );
+include( "mtmanager.lua" );
+include( "rounds.lua" );
 
 resource.AddFile( "sound/mt/monsterservo.wav" );
 resource.AddFile( "sound/mt/monsterstep.wav" );
+resource.AddFile( "sound/mt/goSound.wav" );
 
 function GM:Initialize()
 
@@ -17,13 +18,49 @@ function GM:Initialize()
 	
 end
 
-function GM:PlayerSpawn( ply )
+function GM:PlayerInitialSpawn( ply )
 
-	setupPlayer( ply );
-
-	monsterManager( pickRandomPlayer() );
+	mtmanager.setClass( ply, "monster" );
 
 end
+
+function testHuman( ply )
+
+	mtmanager.setClass( ply, "human", true );
+
+end
+
+concommand.Add( "testHuman", testHuman );
+
+function testMonster( ply )
+
+	mtmanager.setClass( ply, "monster", true );
+
+end
+
+concommand.Add( "testMonster", testMonster );
+
+function testSpectator( ply )
+
+	mtmanager.setClass( ply, "spectator", true );
+
+end
+
+concommand.Add( "testSpectator", testSpectator );
+
+function testTables()
+
+	PrintTable( mtmanager );
+
+end
+
+concommand.Add( "testTables", testTables );
+
+/*function GM:PlayerSpawn( ply ) -- Breaks player_manager, use a hook instead
+
+	//round.Start();
+
+end*/
 
 function GM:CanPlayerSuicide()
 
@@ -31,7 +68,23 @@ function GM:CanPlayerSuicide()
 
 end
 
-function forceMonster( ply )
+function GM:PlayerDeath( ply )
+
+	mtmanager.setClass( ply, "spectator" );
+	
+	hook.Call( "disconnectDeathTimer" );
+
+end
+
+function GM:PlayerDisconnected( ply )
+
+	mtmanager.removePlayer( ply, player_manager.GetPlayerClass( ply ) );
+	
+	hook.Call( "disconnectDeathTimer" );
+
+end
+
+/*function forceMonster( ply )
 
 	if ply == NULL or ply:IsAdmin() then
 
@@ -78,4 +131,4 @@ function shakeScreen( pos, amp, freq, dur, rad )
 	net.WriteInt( rad, 16 );
 	net.Broadcast();
 
-end
+end*/

@@ -41,17 +41,17 @@
 		}
 		5
 		{
-			"name"		"mt_monsterjumpheight"
-			"text"		"Monster Jump Height"
-			"help"		"Monster jump height multiplier."
+			"name"		"mt_monsterjumppower"
+			"text"		"Monster Jump Power"
+			"help"		"Monster jump power multiplier."
 			"type"		"Numeric"
 			"default"	"4"
 		}
 		6
 		{
-			"name"		"mt_humanjumpheight"
-			"text"		"Human Jump Height"
-			"help"		"Human jump height multiplier."
+			"name"		"mt_humanjumppower"
+			"text"		"Human Jump Power"
+			"help"		"Human jump power multiplier."
 			"type"		"Numeric"
 			"default"	"1"
 		}
@@ -157,6 +157,14 @@
 			"text"		"Monster Sprint Recharge"
 			"help"		"Monster sprint recharge rate multiplier."
 			"type"		"Numeric"
+			"default"	"1"
+		}
+		20
+		{
+			"name"		"mt_dynmusic"
+			"text"		"Dynamic Music"
+			"help"		"Should dynamic music be on."
+			"type"		"CheckBox"
 			"default"	"1"
 		}
 	}

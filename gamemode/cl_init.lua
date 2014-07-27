@@ -1,8 +1,4 @@
 include( "shared.lua" );
-include( "cl_player.lua" );
-
-util.PrecacheSound( "mt/monsterservo.wav" );
-util.PrecacheSound( "mt/monsterstep.wav" );
 
 /*function GM:Think()
 	
@@ -60,7 +56,7 @@ function GM:DrawOverlay()
 	
 end
 
-*/
+
 
 function entityPlaySound()
 
@@ -76,4 +72,4 @@ function shakeScreen()
 
 end
 
-net.Receive( "shakeScreen", shakeScreen );
+net.Receive( "shakeScreen", shakeScreen );*/

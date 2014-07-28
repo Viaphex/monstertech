@@ -29,6 +29,16 @@ function mtmanager.validClass( class )
 
 end
 
+function mtmanager.playerClassCheck( ply )
+
+	if table.HasValue( mtmanager.humans, ply ) then return "human" end;
+	if table.HasValue( mtmanager.monsters, ply ) then return "monster" end;
+	if table.HasValue( mtmanager.spectators, ply ) then return "spectator" end;
+	
+	return;
+
+end
+
 function mtmanager.playerCount( class )
 
 	if class then
@@ -45,79 +55,122 @@ function mtmanager.playerCount( class )
 
 end
 
-function mtmanager.removePlayer( ply, class )
+function mtmanager.enoughPlayers()
 
-	if !mtmanager.validPlayer( ply ) then return end;
+	if mtmanager.playerCount() >= cvars.Number( "mt_enoughplayers" ) then return true end;
 	
-	local tableRemoveFrom = mtmanager.validClass( class );
-
-	if tableRemoveFrom and table.HasValue( tableRemoveFrom, ply ) then
-	
-		for k, v in pairs( tableRemoveFrom ) do
-		
-			if v == ply then 
-			
-				table.remove( tableRemoveFrom, k );
-			
-				break;
-			
-			end
-
-		end
-	
-	else
-	
-		print( "Didn't remove player from their class table when class changed, possibly a new player who wasn't put in a table yet. Check last console message." );
-	
-	end
+	PrintMessage( 4, "Not enough players!" );
 
 end
 
-function mtmanager.setClass( ply, class, kill )
+function mtmanager.removePlayer( ply, roundCheck )
+	
+	print( "---------------------------------------------" );
+	print( "removePlayer" );
+	print( "#player validation" );
+	if !mtmanager.validPlayer( ply ) then return end;
+	print( "#" .. ply:Nick() .. " validated" );
+	print( "#finding " .. ply:Nick() );
+	
+	local tableRemoveFrom = nil;
+	
+	if table.HasValue( mtmanager.humans, ply ) then tableRemoveFrom = mtmanager.humans else print( "#" .. ply:Nick() .. " not found in humans class table" ) end;
+	if table.HasValue( mtmanager.monsters, ply ) then tableRemoveFrom = mtmanager.monsters else print( "#" .. ply:Nick() .. " not found in monsters class table" ) end;
+	if table.HasValue( mtmanager.spectators, ply ) then tableRemoveFrom = mtmanager.spectators else print( "#" .. ply:Nick() .. " not found in spectators class table" ) end;
+	
+	if !tableRemoveFrom then print( "#!#failed to find " .. ply:Nick() .. ", is " .. ply:Nick() .. " newly connected?\n---------------------------------------------" ) return end;
+	
+	for k, v in pairs( tableRemoveFrom ) do
+		
+		if v == ply then 
+			
+			print( "#found player " .. ply:Nick() .. " in class table, removing" );
+			
+			table.remove( tableRemoveFrom, k );
+			
+			break;
+			
+		end
+
+	end
+
+	if roundCheck then 
+	
+		print( "#roundCheck == true, calling roundCheck" );
+		
+		round.Intermission();
+		
+	end
+	
+	print( "---------------------------------------------" );
+	
+	return true;
+
+end
+
+function mtmanager.setClass( ply, class, kill, roundCheck )
+	
+	print( "---------------------------------------------" );
+	print( "setClass" );
+	print( "#player validation" );
 	
 	if !mtmanager.validPlayer( ply ) then return end;
 	
-	if class == player_manager.GetPlayerClass( ply ) then return end;
+	print( "#" .. ply:Nick() .. " validated" );
+	print( "#class validation" );
 	
 	local tableAddTo = mtmanager.validClass( class );
 	
-	if !tableAddTo then error( "setClass was passed an invalid class" ) return end;
+	if !tableAddTo then error( "#!#setting " .. ply:Nick() .. " to invalid class!" ) return end;
 	
-	mtmanager.removePlayer( ply, player_manager.GetPlayerClass( ply ) );
+	print( "#" .. class .. " validated" );
+	print( "#removing " .. ply:Nick() .. " from " .. class .. " class table" );
 	
-	if !table.HasValue( tableAddTo, ply ) then
+	mtmanager.removePlayer( ply );
 	
-		table.Add( tableAddTo, { ply } );
+	print( "#adding " .. ply:Nick() .. " to " .. class .. " class table" );
 	
-	else
+	table.Add( tableAddTo, { ply } );
 	
-		error( "Trying to add " .. ply:Nick() .. " to a class table, but the player is already in the " .. class .. " table!" );
-	
-	end
+	print( "#setting " .. ply:Nick() .. " to class " .. class );
 	
 	player_manager.SetPlayerClass( ply, class );
 	
-	if kill then ply:KillSilent() end;
+	if roundCheck then 
 	
-	return true;
+		print( "#roundCheck == true, calling roundCheck" );
+		
+		round.Intermission();
+		
+	end
+	
+	if kill then 
+	
+		print( "#kill == true, calling silentkill" );
+		
+		ply:KillSilent();
+		
+	end
+	
+	print( "---------------------------------------------" );
 		
 end
 
-function mtmanager.spectatorAll( kill )
+function mtmanager.spectatorAll( kill, roundCheck )
 
 	for k, v in pairs( player.GetAll() ) do
 		
-		mtmanager.setClass( v, "spectator", kill );
+		mtmanager.setClass( v, "spectator", kill, roundCheck );
 		
 	end
 
 end
 
-function mtmanager.humanAll( kill )
+function mtmanager.humanAll( kill, roundCheck )
 
 	for k, v in pairs( player.GetAll() ) do
 		
-		mtmanager.setClass( v, "human", kill );
+		mtmanager.setClass( v, "human", kill, roundCheck );
 		
 	end
 

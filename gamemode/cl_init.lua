@@ -55,21 +55,3 @@ function GM:DrawOverlay()
 	//debugoverlay.Text( LocalPlayer():GetPos(), tostring( playerGroundMoving ), 0.1 );
 	
 end
-
-
-
-function entityPlaySound()
-
-	net.ReadEntity():EmitSound( net.ReadString(), net.ReadInt( 16 ), net.ReadInt( 16 ) );
-
-end
-
-net.Receive( "entityPlaySound", entityPlaySound );
-
-function shakeScreen()
-
-	util.ScreenShake( net.ReadVector(), net.ReadInt( 16 ), net.ReadInt( 16 ), net.ReadFloat(), net.ReadInt( 16 ) ); //Radius doesn't seem to be working
-
-end
-
-net.Receive( "shakeScreen", shakeScreen );*/

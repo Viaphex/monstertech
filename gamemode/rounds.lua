@@ -5,6 +5,8 @@ round.monsterIteration = 0;
 
 function round.Start()
 	
+	if !mtmanager.enoughPlayers() then return end;
+	
 	player.GetAll()[ 1 ]:EmitSound( "mt/gosound.wav", 511, 100 ); -- THIS IS STUPID
 
 	PrintMessage( 4, "Go!" )
@@ -17,8 +19,10 @@ function round.Start()
 
 end
 
-function round.Intermission( ply )
+function round.Intermission()
 
+	if !mtmanager.enoughPlayers() then return end;
+	
 	if mtmanager.playerCount( "monster" ) == 0 or mtmanager.playerCount( "human" ) == 0 then
 
 		if mtmanager.playerCount( "monster" ) > 0 then PrintMessage( 4, "Monsters win!" ) end
@@ -34,11 +38,11 @@ function round.Intermission( ply )
 
 end
 
-hook.Add( "disconnectDeathTimer", "intermissionRunning", round.Intermission )
+hook.Add( "roundCheck", "intermissionCheck", round.Intermission )
 
 function round.monsterIterate()
 
-	if mtmanager.playerCount() < 2 then return end;
+	if !mtmanager.enoughPlayers() then return end;
 
 	round.monsterIteration = round.monsterIteration + 1;
 	
@@ -48,6 +52,6 @@ function round.monsterIterate()
 		
 	end
 	
-	mtmanager.setClass( player.GetAll()[ round.monsterIteration ], "monster", true );
+	mtmanager.setClass( player.GetAll()[ round.monsterIteration ], "monster" );
 
 end

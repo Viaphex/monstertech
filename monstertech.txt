@@ -167,5 +167,13 @@
 			"type"		"CheckBox"
 			"default"	"1"
 		}
+		21
+		{
+			"name"		"mt_enoughplayers"
+			"text"		"Players to start"
+			"help"		"What is the amount of players needed to start the match."
+			"type"		"Numeric"
+			"default"	"2"
+		}
 	}
 }

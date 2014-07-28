@@ -20,33 +20,33 @@ end
 
 function GM:PlayerInitialSpawn( ply )
 
-	mtmanager.setClass( ply, "monster" );
+	mtmanager.setClass( ply, "human", false, true );
 
 end
 
 function testHuman( ply )
 
-	mtmanager.setClass( ply, "human", true );
+	mtmanager.setClass( ply, "human", true, true );
 
 end
 
-concommand.Add( "testHuman", testHuman );
+concommand.Add( "mt_human", testHuman );
 
 function testMonster( ply )
 
-	mtmanager.setClass( ply, "monster", true );
+	mtmanager.setClass( ply, "monster", true, true );
 
 end
 
-concommand.Add( "testMonster", testMonster );
+concommand.Add( "mt_monster", testMonster );
 
 function testSpectator( ply )
 
-	mtmanager.setClass( ply, "spectator", true );
+	mtmanager.setClass( ply, "spectator", true, true );
 
 end
 
-concommand.Add( "testSpectator", testSpectator );
+concommand.Add( "mt_spectator", testSpectator );
 
 function testTables()
 
@@ -62,73 +62,14 @@ concommand.Add( "testTables", testTables );
 
 end*/
 
-function GM:CanPlayerSuicide()
-
-	return;
-
-end
-
 function GM:PlayerDeath( ply )
 
-	mtmanager.setClass( ply, "spectator" );
-	
-	hook.Call( "disconnectDeathTimer" );
+	mtmanager.setClass( ply, "spectator", false, true );
 
 end
 
 function GM:PlayerDisconnected( ply )
 
-	mtmanager.removePlayer( ply, player_manager.GetPlayerClass( ply ) );
-	
-	hook.Call( "disconnectDeathTimer" );
+	mtmanager.removePlayer( ply, true );
 
 end
-
-/*function forceMonster( ply )
-
-	if ply == NULL or ply:IsAdmin() then
-
-		monsterManager( pickRandomPlayer() );
-		
-	else
-	
-		print( ply:Nick(), " is trying to use the mt_forcemonster command without admin privileges." );
-		
-	end
-
-end
-
-concommand.Add( "mt_forcemonster", forceMonster );
-
-function pickRandomPlayer()
-
-	if table.Count( player.GetAll() ) == 0 then return end; //if no players connected, return false.
-
-	return player.GetAll()[ math.random( 1, table.Count( player.GetAll() ) ) ]; //instead of table.Count( player.GetAll() ) is there a better way of getting the amount of players?
-	
-	//PrintMessage( 4, string.Implode( " ", { tostring( playerMonster:Nick() ), "is a monster!" } ) ); //is there a better way to put two strings together within the argument
-
-end
-
-function entityPlaySound( ent, dir, vol, ptch )
-
-	net.Start( "entityPlaySound" );
-	net.WriteEntity( ent );
-	net.WriteString( dir );
-	net.WriteInt( vol, 16 ); //WriteInt needs bitcount, and has to be a power of 2
-	net.WriteInt( ptch, 16 );
-	net.Broadcast();
-
-end
-
-function shakeScreen( pos, amp, freq, dur, rad )
-
-	net.Start( "shakeScreen" );
-	net.WriteVector( pos );
-	net.WriteInt( amp, 16 );
-	net.WriteInt( freq, 16 );
-	net.WriteFloat( dur );
-	net.WriteInt( rad, 16 );
-	net.Broadcast();
-
-end*/

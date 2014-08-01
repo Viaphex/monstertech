@@ -1,5 +1,36 @@
 include( "shared.lua" );
 
+local mouseVisible = true;
+
+function GM:Initialize()
+	//Loading panels only works after the gamemode is loaded and started
+	local titleScreen = vgui.Create( "DFrame", nil, "titleScreen" );
+	titleScreen:SetSize( ScrW() / 2, ScrH() / 2 );
+	//titleScreen:SetPos( ( ScrW() / 2 ) - ( titleScreen:GetWide() / 2 ), ( ScrH() / 2 ) - ( titleScreen:GetTall() / 2 ) );
+	titleScreen:Center(); --Centres on middle of the screen if it has no parent
+	titleScreen:SetTitle( "Monster Tech" ); -- Doesn't seem to work outside function
+	
+	logoButton = vgui.Create( "DImageButton", titleScreen );
+	logoButton:SetImage( "mt/mtlogo.vtf" );
+	
+	gui.EnableScreenClicker( true );
+
+end
+
+function enableMouse()
+
+	if mouseVisible then 
+		gui.EnableScreenClicker( false ) ;
+		mouseVisible = false ;
+	else
+		gui.EnableScreenClicker( true ) ;
+		mouseVisible = true ;
+	end
+
+end
+
+net.Receive( "enableMouse", enableMouse );
+
 /*function GM:Think()
 	
 	if LocalPlayer():IsOnGround() and LocalPlayer():WaterLevel() < 2 then

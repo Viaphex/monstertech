@@ -1,48 +1,65 @@
 round = {};
 
-round.IntermissionNow = 0;
+round.gameStarted = false;
 round.monsterIteration = 0;
 
-function round.Start()
+function round.Check()
+
+	if mtmanager.playerCount( false, true, true ) then -- Enough players
 	
-	if !mtmanager.enoughPlayers() then return end;
+		if !round.gameStarted then round.start() return end; -- Round hasn't started, start round
+		
+		if round.gameStarted then -- Round has started
+		
+			if mtmanager.playerCount( "human" ) > 0 and mtmanager.playerCount( "monster" ) == 0 then round.finish( "human" ) end; -- 1+ humans alive, monsters dead, finish round
+			if mtmanager.playerCount( "human" ) == 0 and mtmanager.playerCount( "monster" ) > 0 then round.finish( "monster" ) end; -- humans dead, 1+ monsters alive, finish round
+			
+		end
 	
-	player.GetAll()[ 1 ]:EmitSound( "mt/gosound.wav", 511, 100 ); -- THIS IS STUPID
-
-	PrintMessage( 4, "Go!" )
-
-	round.IntermissionNow = false;
+	else -- Not enough players
 	
-	mtmanager.humanAll( true );
-	
-	round.monsterIterate();
+		if round.gameStarted then round.finish() return end; -- Round has started, end round
 
-end
-
-function round.Intermission()
-
-	if !mtmanager.enoughPlayers() then return end;
-	
-	if mtmanager.playerCount( "monster" ) == 0 or mtmanager.playerCount( "human" ) == 0 then
-
-		if mtmanager.playerCount( "monster" ) > 0 then PrintMessage( 4, "Monsters win!" ) end
-		if mtmanager.playerCount( "human" ) > 0 then PrintMessage( 4, "Humans win!" ) end
-	
-		round.IntermissionNow = true;
-
-		mtmanager.spectatorAll( true );
-
-		timer.Simple( 10, round.Start );
-	
 	end
 
 end
 
-hook.Add( "roundCheck", "intermissionCheck", round.Intermission )
+function round.finish( roundEnder )
+
+	if timer.Exists( "roundTimer" ) then timer.Destroy( "roundTimer" ) end;
+
+	if roundEnder == "human" or !roundEnder then PrintMessage( 4, "Humans win!" ) end;
+	if roundEnder == "monster" then PrintMessage( 4, "Monsters win!" ) end;
+
+	mtmanager.spectatorAll( true );
+
+	round.gameStarted = false;
+	
+	round.summary();
+
+end
+
+function round.start()
+
+	round.monsterIterate();
+	
+	mtmanager.unSpectatorAll( true );
+	
+	round.gameStarted = true;
+	
+	timer.Create( "roundTimer", cvars.Number( "mt_roundtime" ), 1, round.finish );
+	
+	PrintMessage( 4, "Go!" );
+
+end
+
+function round.summary()
+
+	timer.Simple( 10, round.Check );
+
+end
 
 function round.monsterIterate()
-
-	if !mtmanager.enoughPlayers() then return end;
 
 	round.monsterIteration = round.monsterIteration + 1;
 	
@@ -52,6 +69,6 @@ function round.monsterIterate()
 		
 	end
 	
-	mtmanager.setClass( player.GetAll()[ round.monsterIteration ], "monster" );
+	mtmanager.setClass( player.GetAll()[ round.monsterIteration ], "monster", true );
 
 end

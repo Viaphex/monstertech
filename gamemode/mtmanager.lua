@@ -39,7 +39,7 @@ function mtmanager.playerClassCheck( ply )
 
 end
 
-function mtmanager.playerCount( class )
+function mtmanager.playerCount( class, enoughPlayers, message )
 
 	if class then
 		
@@ -51,15 +51,19 @@ function mtmanager.playerCount( class )
 		
 	end
 	
-	return table.Count( player.GetAll() );
-
-end
-
-function mtmanager.enoughPlayers()
-
-	if mtmanager.playerCount() >= cvars.Number( "mt_enoughplayers" ) then return true end;
+	if enoughPlayers then
+		
+		if table.Count( player.GetAll() ) >= cvars.Number( "mt_enoughplayers" ) then
+			return true;
+		elseif message and table.Count( player.GetAll() ) < cvars.Number( "mt_enoughplayers" ) then
+			PrintMessage( 4, "Not enough players!" );
+		end
+		
+	else
 	
-	PrintMessage( 4, "Not enough players!" );
+		return table.Count( player.GetAll() );
+	
+	end
 
 end
 
@@ -98,7 +102,7 @@ function mtmanager.removePlayer( ply, roundCheck )
 	
 		print( "#roundCheck == true, calling roundCheck" );
 		
-		round.Intermission();
+		round.Check();
 		
 	end
 	
@@ -140,7 +144,7 @@ function mtmanager.setClass( ply, class, kill, roundCheck )
 	
 		print( "#roundCheck == true, calling roundCheck" );
 		
-		round.Intermission();
+		round.Check();
 		
 	end
 	
@@ -160,17 +164,17 @@ function mtmanager.spectatorAll( kill, roundCheck )
 
 	for k, v in pairs( player.GetAll() ) do
 		
-		mtmanager.setClass( v, "spectator", kill, roundCheck );
+		if mtmanager.playerClassCheck( v ) != "spectator" then mtmanager.setClass( v, "spectator", kill, roundCheck ) end;
 		
 	end
 
 end
 
-function mtmanager.humanAll( kill, roundCheck )
+function mtmanager.unSpectatorAll( kill, roundCheck )
 
 	for k, v in pairs( player.GetAll() ) do
 		
-		mtmanager.setClass( v, "human", kill, roundCheck );
+		if mtmanager.playerClassCheck( v ) == "spectator" then mtmanager.setClass( v, "human", kill, roundCheck ) end;
 		
 	end
 

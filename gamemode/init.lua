@@ -8,9 +8,12 @@ include( "shared.lua" );
 include( "mtmanager.lua" );
 include( "rounds.lua" );
 
+util.AddNetworkString( "enableMouse" );
+
 resource.AddFile( "sound/mt/monsterservo.wav" );
 resource.AddFile( "sound/mt/monsterstep.wav" );
 resource.AddFile( "sound/mt/gosound.wav" );
+resource.AddFile( "materials/mt/mtlogo.vmt" );
 
 function GM:Initialize()
 
@@ -20,11 +23,18 @@ end
 
 function GM:PlayerInitialSpawn( ply )
 
-	mtmanager.setClass( ply, "human", false, true );
+	mtmanager.setClass( ply, "spectator", false, true );
 
 end
 
-function testHuman( ply )
+function GM:ShowSpare1( ply )
+
+	net.Start( "enableMouse" );
+	net.Send( ply );
+	
+end
+
+/*function testHuman( ply )
 
 	mtmanager.setClass( ply, "human", true, true );
 
@@ -46,7 +56,7 @@ function testSpectator( ply )
 
 end
 
-concommand.Add( "mt_spectator", testSpectator );
+concommand.Add( "mt_spectator", testSpectator );*/
 
 function testTables()
 
@@ -63,6 +73,8 @@ concommand.Add( "testTables", testTables );
 end*/
 
 function GM:PlayerDeath( ply )
+
+	PrintMessage( 4, ply:Nick() .. " has been killed!" );
 
 	mtmanager.setClass( ply, "spectator", false, true );
 

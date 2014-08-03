@@ -1,6 +1,6 @@
 include( "shared.lua" );
 
-local mouseVisible = true;
+local mouseEnabled = true;
 
 function GM:Initialize()
 	//Loading panels only works after the gamemode is loaded and started
@@ -8,28 +8,37 @@ function GM:Initialize()
 	titleScreen:SetSize( ScrW() / 2, ScrH() / 2 );
 	//titleScreen:SetPos( ( ScrW() / 2 ) - ( titleScreen:GetWide() / 2 ), ( ScrH() / 2 ) - ( titleScreen:GetTall() / 2 ) );
 	titleScreen:Center(); --Centres on middle of the screen if it has no parent
-	titleScreen:SetTitle( "Monster Tech" ); -- Doesn't seem to work outside function
+	titleScreen:SetTitle( "" ); -- Doesn't seem to work outside function
 	
 	logoButton = vgui.Create( "DImageButton", titleScreen );
-	logoButton:SetImage( "mt/mtlogo.vtf" );
+	logoButton:SetImage( "mt/mtlogo" );
+	logoButton:SizeToContents();
+	logoButton:SetPos( ( ( titleScreen:GetWide() / 2 ) - ( logoButton:GetWide() / 2 ) ), ( ( ( titleScreen:GetTall() / 2 ) - ( logoButton:GetTall() / 2 ) ) - 40 ) );
+	
+	logoButton.DoClick = function() toggleMouse() titleScreen:Remove() end;
+	
+	creditsText = vgui.Create( "DLabel", titleScreen );
+	creditsText:SetSize( 85, 90 );
+	creditsText:SetText( "Creator: Viaphex\n\nAlpha Testers:\nBoarta\nFUH\nIsaac\nLinkzaki" );
+	creditsText:SetPos( ( ( logoButton.x + ( logoButton:GetWide() / 2 ) ) - ( creditsText:GetWide() / 2 ) ), ( logoButton.y + logoButton:GetTall() ) );
 	
 	gui.EnableScreenClicker( true );
-
+	
 end
 
-function enableMouse()
-
-	if mouseVisible then 
+function toggleMouse()
+	
+	if mouseEnabled then 
 		gui.EnableScreenClicker( false ) ;
-		mouseVisible = false ;
+		mouseEnabled = false;
 	else
 		gui.EnableScreenClicker( true ) ;
-		mouseVisible = true ;
+		mouseEnabled = true;
 	end
 
 end
 
-net.Receive( "enableMouse", enableMouse );
+net.Receive( "toggleMouse", toggleMouse );
 
 /*function GM:Think()
 	

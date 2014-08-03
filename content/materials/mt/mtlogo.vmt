@@ -1,4 +1,5 @@
-"UnlitGeneric"
+"LightmappedGeneric"
 {
-	"$basetexture" "mt/logo"
+	"$basetexture" "mt/mtlogo"
+	"$translucent" 1
 }

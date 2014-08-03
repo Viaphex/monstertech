@@ -3,12 +3,14 @@ AddCSLuaFile( "shared.lua" );
 AddCSLuaFile( "playerclasses/human.lua" );
 AddCSLuaFile( "playerclasses/monster.lua" );
 AddCSLuaFile( "playerclasses/spectator.lua" );
+AddCSLuaFile( "meta.lua" );
 
 include( "shared.lua" );
 include( "mtmanager.lua" );
 include( "rounds.lua" );
+include( "meta.lua" );
 
-util.AddNetworkString( "enableMouse" );
+util.AddNetworkString( "toggleMouse" );
 
 resource.AddFile( "sound/mt/monsterservo.wav" );
 resource.AddFile( "sound/mt/monsterstep.wav" );
@@ -29,34 +31,10 @@ end
 
 function GM:ShowSpare1( ply )
 
-	net.Start( "enableMouse" );
+	net.Start( "toggleMouse" );
 	net.Send( ply );
 	
 end
-
-/*function testHuman( ply )
-
-	mtmanager.setClass( ply, "human", true, true );
-
-end
-
-concommand.Add( "mt_human", testHuman );
-
-function testMonster( ply )
-
-	mtmanager.setClass( ply, "monster", true, true );
-
-end
-
-concommand.Add( "mt_monster", testMonster );
-
-function testSpectator( ply )
-
-	mtmanager.setClass( ply, "spectator", true, true );
-
-end
-
-concommand.Add( "mt_spectator", testSpectator );*/
 
 function testTables()
 
